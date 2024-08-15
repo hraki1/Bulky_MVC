@@ -2,7 +2,7 @@
 using Bulky.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Bulky.DataAccess.Controllers
+namespace BulkyWeb.Controllers
 {
     public class CategoryController : Controller
     {
@@ -102,7 +102,7 @@ namespace Bulky.DataAccess.Controllers
 
             return View(category);
         }
-        [HttpPost,ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         public IActionResult DeletePOST(int? id)
         {
 
@@ -116,7 +116,7 @@ namespace Bulky.DataAccess.Controllers
             _db.Categories.Remove(category);
             _db.SaveChanges();
             TempData["success"] = "Category deleted successfuly";
-            return RedirectToAction("index","Category");
+            return RedirectToAction("index", "Category");
         }
 
         #endregion
