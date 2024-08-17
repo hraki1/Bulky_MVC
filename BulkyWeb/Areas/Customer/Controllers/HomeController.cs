@@ -2,11 +2,15 @@ using Bulky.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace BulkyBookWeb.Controllers
+namespace BulkyBookWeb.Areas.Customer.Controllers
 {
+    [Area("Customer")]
+
     public class HomeController : Controller
     {
+
         private readonly ILogger<HomeController> _logger;
+
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -17,10 +21,10 @@ namespace BulkyBookWeb.Controllers
         {
             return View();
         }
-        
+
         public IActionResult Privacy()
         {
- 
+
             return View();
         }
 

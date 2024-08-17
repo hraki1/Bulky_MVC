@@ -3,17 +3,18 @@ using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BulkyBookWeb.Controllers
+namespace BulkyBookWeb.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
 
         #region Constructor Region
 
-        public CategoryController(IUnitOfWork db)
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _unitOfWork = db;
+            _unitOfWork = unitOfWork;
 
         }
 
@@ -75,7 +76,7 @@ namespace BulkyBookWeb.Controllers
                 return NotFound();
             }
 
-            Category? category = _unitOfWork.Category.Get(u=>u.Id == id);
+            Category? category = _unitOfWork.Category.Get(u => u.Id == id);
             //Category? category1 = _db.Categories.FirstOrDefault(u =>u.Id ==id);
             //Category? category3 = _db.Categories.Where(u=>u.Id == id).FirstOrDefault();
 
