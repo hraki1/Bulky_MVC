@@ -14,7 +14,7 @@ namespace Bulky.DataAccess.Repository
     {
 
         private ApplicationDbContext _db;
-        public CategoryRepository(ApplicationDbContext db) : base(db,9)
+        public CategoryRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
