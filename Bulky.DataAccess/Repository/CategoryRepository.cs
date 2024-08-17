@@ -20,14 +20,8 @@ namespace Bulky.DataAccess.Repository
         }
         public void Update(Category category)
         {
-           _db.Update(category);
+           _db.Categories.Update(category);
         }
-
-        public void Save()
-        {
-            throw new NotImplementedException();
-        }
-
 
     }
 
