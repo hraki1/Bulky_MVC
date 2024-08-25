@@ -28,11 +28,6 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             List<Category> objCategoryList = _unitOfWork.Category.GetAll().ToList();
             return View(objCategoryList);
         }
-        public IActionResult TestApi()
-        {
-            List<Category> objCategoryList = _unitOfWork.Category.GetAll().ToList();
-            return Json(objCategoryList);
-        }
 
         #endregion
 
