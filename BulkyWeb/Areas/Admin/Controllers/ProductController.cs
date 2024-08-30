@@ -1,6 +1,8 @@
 ﻿using Bulky.DataAccess.Repository.IRepository;
 using Bulky.Models;
+using Bulky.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BulkyBookWeb.Areas.Admin.Controllers
 {
@@ -19,21 +21,49 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         }
         public IActionResult Create()
         {
-            return View();
+
+            //ViewBag.CategoryList = CategoryList;
+            //ViewData["CategoryList"] = CategoryList;
+
+            ProductVM productVM = new ProductVM()
+            {
+                CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString(),
+
+                })
+,
+                Product = new()
+            };
+
+            return View(productVM);
         }
         [HttpPost]
-        public IActionResult Create(Product product)
+        public IActionResult Create(ProductVM productVM)
         {
 
             if (ModelState.IsValid)
             {
-                _unitOfWork.Product.Add(product);
+                _unitOfWork.Product.Add(productVM.Product);
+                TempData["success"] = "Product created successfuly";
+
                 _unitOfWork.Save();
                 return RedirectToAction("Index");
 
             }
+            else
+            {
 
-            return View();
+                productVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString(),
+
+                });
+
+                return View(productVM);
+            }
         }
         public IActionResult Edit(int? id)
         {
@@ -66,7 +96,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         public IActionResult DeletePOST(int? id)
         {
             var product = _unitOfWork.Product.Get(u => u.Id == id);
-            _unitOfWork.Product.Remove(product);    
+            _unitOfWork.Product.Remove(product);
             _unitOfWork.Save();
             return RedirectToAction("Index");
         }
