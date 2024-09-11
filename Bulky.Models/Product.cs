@@ -17,11 +17,11 @@ namespace Bulky.Models
         [Required]
         public string? Title { get; set; }
         [Required]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [Required]
-        public string  ISBN { get; set; }
+        public string?  ISBN { get; set; }
         [Required]
-        public string Author { get; set; }
+        public string? Author { get; set; }
         [Required]
         [DisplayName("List Price")]
         [Range(1,1000)]
@@ -43,6 +43,7 @@ namespace Bulky.Models
         [ValidateNever]
 
         public Category Category { get; set; }
+        [ValidateNever]
         public string ImageUrl { get; set; }
     }
 }

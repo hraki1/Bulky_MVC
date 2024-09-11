@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Bulky.DataAccess.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
-        
+
     {
         private readonly ApplicationDbContext _db;
         internal DbSet<T> dbSet;
@@ -22,23 +22,40 @@ namespace Bulky.DataAccess.Repository
             _db = db;
             this.dbSet = _db.Set<T>();
             //_db.Categories == dbSet => both are equivalent
-            _db.SaveChanges();
         }
         public void Add(T entity)
         {
             dbSet.Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> fillter)
+        public T Get(Expression<Func<T, bool>> fillter , string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProp in includeProperties
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
             query = query.Where(fillter);
             return query.FirstOrDefault();
         }
 
-        public IEnumerable<T> GetAll()
+        // Category,CoverType
+        public IEnumerable<T> GetAll(string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
+            if (!string.IsNullOrEmpty(includeProperties))
+            {
+                foreach (var includeProp in includeProperties
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(includeProp);
+                }
+            }
+
             return query.ToList();
         }
 
@@ -52,8 +69,5 @@ namespace Bulky.DataAccess.Repository
             dbSet.RemoveRange(entity);
         }
 
-       
-
-      
     }
 }
